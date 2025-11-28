@@ -216,6 +216,47 @@ VALUES (
     );
 
 -- ============================================
+-- TABLA: usuarios_movil
+-- USO: Usuarios registrados de la app móvil
+-- ============================================
+
+DROP TABLE IF EXISTS `usuarios_movil`;
+
+CREATE TABLE `usuarios_movil` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `nombre_completo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `correo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'SHA-256 hash',
+    `foto_perfil` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Base64 de la imagen',
+    `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `correo` (`correo`),
+    KEY `idx_correo` (`correo`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- ============================================
+-- DATOS DE EJEMPLO (OPCIONAL)
+-- ============================================
+
+INSERT INTO
+    `usuarios_movil` (
+        `id`,
+        `nombre_completo`,
+        `correo`,
+        `password`,
+        `foto_perfil`,
+        `fecha_registro`
+    )
+VALUES (
+        1,
+        'Usuario Prueba',
+        'test@ejemplo.com',
+        '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',
+        NULL,
+        NOW()
+    );
+
+-- ============================================
 -- ÍNDICES Y OPTIMIZACIONES
 -- ============================================
 
@@ -391,6 +432,12 @@ FROM invitados
 GROUP BY
     correo_invitado
 ORDER BY total_eventos DESC;
+
+-- ============================================
+-- VERIFICACIÓN
+-- ============================================
+
+SELECT * FROM usuarios_movil;
 
 -- ============================================
 -- FIN DEL SCRIPT
