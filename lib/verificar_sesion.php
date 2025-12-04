@@ -1,5 +1,4 @@
 <?php
-// Archivo: lib/verificar_sesion.php
 
 session_start();
 

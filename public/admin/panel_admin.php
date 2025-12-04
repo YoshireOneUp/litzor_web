@@ -4,7 +4,6 @@ verificar_administrador(); // Solo administradores
 
 require_once __DIR__ . '../../../config/conexion_db.php';
 
-// ===== ESTADÍSTICAS =====
 // Total de usuarios (organizadores)
 $result_usuarios = mysqli_query($conexion, "SELECT COUNT(*) as total FROM clientes WHERE tipo_usuario = 1");
 $row_usuarios = mysqli_fetch_assoc($result_usuarios);
@@ -78,7 +77,7 @@ $labelsJSON = json_encode($labels);
 $eventosJSON = json_encode($eventosData);
 $asistentesJSON = json_encode($asistentesData);
 
-// ===== LISTA DE USUARIOS =====
+
 $sql_usuarios = "SELECT * FROM clientes WHERE tipo_usuario = 1 ORDER BY fecha_registro DESC";
 $usuarios = mysqli_query($conexion, $sql_usuarios);
 ?>
@@ -467,7 +466,8 @@ $usuarios = mysqli_query($conexion, $sql_usuarios);
 
         function eliminarUsuario(id, nombre) {
             if (confirm(`¿Estás seguro de eliminar al usuario "${nombre}"?\n\nEsta acción también eliminará todos sus eventos e invitados.`)) {
-                window.location.href = './public/admin/eliminar_usuario.php?id=' + id;
+                window.location.href = '../../lib/eliminar_usuario.php?id=' + id;
+                
             }
         }
     </script>

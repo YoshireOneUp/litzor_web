@@ -1,5 +1,4 @@
 <?php
-// Archivo: php/validar.php - Sistema de autenticación con redirección automática
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     

@@ -20,7 +20,7 @@ if (mysqli_num_rows($resultado) === 0) {
     exit;
 }
 
-// Eliminar evento (los invitados se eliminan automáticamente por la clave foránea con ON DELETE CASCADE)
+// Eliminar evento 
 $sql_eliminar = "DELETE FROM eventos WHERE id_evento = ? AND id_organizador = ?";
 $stmt_del = mysqli_prepare($conexion, $sql_eliminar);
 mysqli_stmt_bind_param($stmt_del, "ii", $id_evento, $id_organizador);
