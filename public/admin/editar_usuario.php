@@ -1,8 +1,8 @@
 <?php
-require_once './lib/verificar_sesion.php';
+require_once __DIR__ . '../../../lib/verificar_sesion.php';
 verificar_administrador();
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 
 $id_usuario = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
@@ -14,7 +14,7 @@ mysqli_stmt_execute($stmt);
 $resultado = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($resultado) === 0) {
-    header('Location: ../public/admin/panel_admin.php?error=Usuario no encontrado');
+    header('Location: ../panel_admin.php?error=Usuario no encontrado');
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (mysqli_stmt_execute($stmt_up)) {
         mysqli_close($conexion);
-        header('Location: ../public/admin/panel_admin.php?mensaje=Usuario actualizado exitosamente');
+        header('Location: ../admin/panel_admin.php?mensaje=Usuario actualizado exitosamente');
         exit;
     } else {
         $error_msg = "Error al actualizar el usuario";
@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Usuario - Litzor</title>
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -123,8 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row align-items-center">
                 <div class="col-12">
                     <div class="logo">
-                        <a href="../public/index.html" class="navbar-brand">
-                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../index.html" class="navbar-brand">
+                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -184,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </section>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
 
 </body>
 </html>

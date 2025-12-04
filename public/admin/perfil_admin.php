@@ -1,8 +1,8 @@
 <?php
-require_once './lib/verificar_sesion.php';
+require_once __DIR__ . '../../../lib/verificar_sesion.php';
 verificar_administrador();
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 
 // Obtener datos del administrador actual
 $id_admin = $_SESSION['id_cl'];
@@ -26,10 +26,10 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil Administrador - Litzor</title>
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../public/assets/css/styles.css">
-    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -195,8 +195,8 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="logo">
-                        <a href="../public/index.html" class="navbar-brand">
-                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../index.html" class="navbar-brand">
+                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -206,17 +206,17 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../public/admin/panel_admin.php">
+                                        <a class="nav-link" href="../admin/panel_admin.php">
                                             <i class="bi bi-speedometer2"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="../public/admin/perfil_admin.php">
+                                        <a class="nav-link active" href="../admin/perfil_admin.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../public/logout.php">
+                                        <a class="nav-link" href="../logout.php">
                                             <i class="bi bi-box-arrow-right"></i>
                                         </a>
                                     </li>
@@ -324,7 +324,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
         </div>
     </section>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
 
 </body>
 </html>

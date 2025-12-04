@@ -4,10 +4,10 @@ session_start();
 // Si ya tiene sesión activa, redirigir
 if (isset($_SESSION['id_cl']) && isset($_SESSION['tipo_usuario'])) {
     if ($_SESSION['tipo_usuario'] == 1) {
-        header('Location: ../public/organizador/home.php');
+        header('Location: ../organizador/home.php');
         exit;
     } elseif ($_SESSION['tipo_usuario'] == 2) {
-        header('Location: ../public/admin/panel_admin.php');
+        header('Location: ../admin/panel_admin.php');
         exit;
     }
 }
@@ -20,10 +20,10 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Litzor</title>
-    <link href="../public/assets/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../public/assets/css/styles.css">
-    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -147,7 +147,7 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
         <div class="register-card">
             
             <div class="logo-register">
-                <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
             </div>
 
             <h1 class="register-title">Crear Cuenta</h1>
@@ -242,11 +242,11 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
                 </button>
                 
                 <div class="login-link">
-                    ¿Ya tienes cuenta? <a href="../public/login.php">Inicia sesión aquí</a>
+                    ¿Ya tienes cuenta? <a href="../login.php">Inicia sesión aquí</a>
                 </div>
 
                 <div class="back-link">
-                    <a href="../public/index.html">
+                    <a href="../index.html">
                         <i class="bi bi-arrow-left"></i> Volver al inicio
                     </a>
                 </div>
@@ -254,7 +254,7 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
         </div>
     </div>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
     <script>
         // Validar que las contraseñas coincidan
         document.getElementById('formRegistro').addEventListener('submit', function(e) {

@@ -1,8 +1,8 @@
 <?php
-require_once './lib/verificar_sesion.php';
+require_once __DIR__ . '../../../lib/verificar_sesion.php';
 verificar_administrador(); // Solo administradores
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 
 // ===== ESTADÍSTICAS =====
 // Total de usuarios (organizadores)
@@ -88,9 +88,9 @@ $usuarios = mysqli_query($conexion, $sql_usuarios);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administrador - Litzor</title>
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../public/assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -249,8 +249,8 @@ $usuarios = mysqli_query($conexion, $sql_usuarios);
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="logo">
-                        <a href="../public/index.html" class="navbar-brand">
-                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../index.html" class="navbar-brand">
+                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -384,7 +384,7 @@ $usuarios = mysqli_query($conexion, $sql_usuarios);
         </div>
     </section>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Cambiar tabs

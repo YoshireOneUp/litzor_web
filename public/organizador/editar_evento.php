@@ -1,8 +1,8 @@
 <?php
-require_once './lib/verificar_sesion.php';
-verificar_organizador();
+require_once __DIR__ . '../../../lib/verificar_sesion.php';
+verificar_administrador(); 
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 
 $id_evento = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $id_organizador = $_SESSION['id_cl'];
@@ -15,7 +15,7 @@ mysqli_stmt_execute($stmt);
 $resultado = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($resultado) === 0) {
-    header('Location: ../public/organizador/home.php?error=Evento no encontrado');
+    header('Location: ../organizador/home.php?error=Evento no encontrado');
     exit;
 }
 
@@ -41,10 +41,10 @@ $invitados_json = json_encode($invitados_array);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Evento - Litzor</title>
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../public/assets/css/styles.css">
-    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -184,7 +184,7 @@ $invitados_json = json_encode($invitados_array);
                 <div class="col-6">
                     <div class="logo">
                         <a href="../index.html" class="navbar-brand">
-                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -194,7 +194,7 @@ $invitados_json = json_encode($invitados_array);
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../public/organnizadorhome.php">
+                                        <a class="nav-link" href="../organnizadorhome.php">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                     </li>
@@ -222,7 +222,7 @@ $invitados_json = json_encode($invitados_array);
                     Editar Evento
                 </h2>
 
-                <form action="../public/organizador/procesar_editar_evento.php" method="POST" id="formEvento">
+                <form action="../organizador/procesar_editar_evento.php" method="POST" id="formEvento">
                     
                     <input type="hidden" name="id_evento" value="<?php echo $evento['id_evento']; ?>">
                     <input type="hidden" name="codigo_evento" value="<?php echo $evento['codigo_evento']; ?>">
@@ -287,7 +287,7 @@ $invitados_json = json_encode($invitados_array);
                     <!-- Botones -->
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="../public/organizador/ver_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-cancelar w-100">
+                            <a href="../organizador/ver_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-cancelar w-100">
                                 <i class="bi bi-x-circle"></i> Cancelar
                             </a>
                         </div>
@@ -304,7 +304,7 @@ $invitados_json = json_encode($invitados_array);
         </div>
     </section>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
     
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

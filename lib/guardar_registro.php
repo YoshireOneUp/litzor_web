@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 
 $nombre_cl = trim($_POST['nombre_cl']);
 $correo_cl = trim($_POST['correo_cl']);

@@ -1,8 +1,8 @@
 <?php
-require_once './lib/verificar_sesion.php';
-verificar_organizador(); // Solo organizadores pueden acceder
+require_once __DIR__ . '../../../lib/verificar_sesion.php';
+verificar_administrador(); 
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 
 $id_organizador = $_SESSION['id_cl'];
 $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
@@ -37,10 +37,10 @@ mysqli_query($conexion, $sql_update);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Eventos - Litzor</title>
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../public/assets/css/styles.css">
-    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -238,8 +238,8 @@ mysqli_query($conexion, $sql_update);
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="logo">
-                        <a href="../public/index.html" class="navbar-brand">
-                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../index.html" class="navbar-brand">
+                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -253,12 +253,12 @@ mysqli_query($conexion, $sql_update);
                             <div class="navbar-collapse justify-content-end collapse" id="movileNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../public/organizador/perfil_usuario.php">
+                                        <a class="nav-link" href="../organizador/perfil_usuario.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../public/logout.php">
+                                        <a class="nav-link" href="../logout.php">
                                             <i class="bi bi-box-arrow-right"></i>
                                         </a>
                                     </li>
@@ -276,7 +276,7 @@ mysqli_query($conexion, $sql_update);
             
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="section-title mb-0">¡Bienvenido, <?php echo htmlspecialchars($nombre_usuario); ?>!</h1>
-                <a href="../public/organizador/crear_evento.php" class="btn-crear-evento">
+                <a href="../organizador/crear_evento.php" class="btn-crear-evento">
                     <i class="bi bi-plus-circle"></i>
                     Crear Evento
                 </a>
@@ -303,10 +303,10 @@ mysqli_query($conexion, $sql_update);
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </button>
                                 <div id="dropdown-<?php echo $evento['id_evento']; ?>" class="dropdown-menu-custom">
-                                    <a href="../public/organizador/editar_evento.php?id=<?php echo $evento['id_evento']; ?>" class="dropdown-item-custom">
+                                    <a href="../organizador/editar_evento.php?id=<?php echo $evento['id_evento']; ?>" class="dropdown-item-custom">
                                         <i class="bi bi-pencil"></i> Editar
                                     </a>
-                                    <a href="../public/organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
+                                    <a href="../organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
                                        class="dropdown-item-custom danger"
                                        onclick="return confirm('¿Estás seguro de eliminar este evento?')">
                                         <i class="bi bi-trash"></i> Eliminar
@@ -352,7 +352,7 @@ mysqli_query($conexion, $sql_update);
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </button>
                                 <div id="dropdown-<?php echo $evento['id_evento']; ?>" class="dropdown-menu-custom">
-                                    <a href="../public/organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
+                                    <a href="../organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
                                        class="dropdown-item-custom danger"
                                        onclick="return confirm('¿Estás seguro de eliminar este evento del historial?')">
                                         <i class="bi bi-trash"></i> Eliminar
@@ -384,7 +384,7 @@ mysqli_query($conexion, $sql_update);
         </div>
     </section>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
     <script>
         function cambiarTab(tab) {
             // Ocultar todos los tabs
@@ -412,7 +412,7 @@ mysqli_query($conexion, $sql_update);
         }
 
         function verEvento(id) {
-            window.location.href = '../public/organizador/ver_evento.php?id=' + id;
+            window.location.href = '../organizador/ver_evento.php?id=' + id;
         }
 
         // Cerrar dropdowns al hacer clic fuera

@@ -1,5 +1,5 @@
 <?php
-require_once './lib/verificar_sesion.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 verificar_organizador();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

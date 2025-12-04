@@ -1,6 +1,6 @@
 <?php
-require_once './lib/verificar_sesion.php';
-verificar_organizador();
+require_once __DIR__ . '../../../lib/verificar_sesion.php';
+verificar_administrador(); 
 
 // Generar código alfanumérico único
 function generarCodigoEvento($conexion) {
@@ -24,7 +24,7 @@ function generarCodigoEvento($conexion) {
     return $codigo;
 }
 
-require_once './config/conexion_db.php';
+require_once __DIR__ . '../../../config/conexion_db.php';
 $codigo_generado = generarCodigoEvento($conexion);
 $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
 ?>
@@ -34,10 +34,10 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Evento - Litzor</title>
-    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../public/assets/css/styles.css">
-    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -179,8 +179,8 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="logo">
-                        <a href="../public/index.html" class="navbar-brand">
-                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../index.html" class="navbar-brand">
+                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -190,7 +190,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../public/organizador/home.php">
+                                        <a class="nav-link" href="../organizador/home.php">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                     </li>
@@ -218,7 +218,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                     Crear Nuevo Evento
                 </h2>
 
-                <form action="../public/organizador/procesar_crear_evento.php" method="POST" id="formEvento">
+                <form action="../organizador/procesar_crear_evento.php" method="POST" id="formEvento">
                     
                     <input type="hidden" name="codigo_evento" value="<?php echo $codigo_generado; ?>">
                     
@@ -295,7 +295,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
         </div>
     </section>
 
-    <script src="../public/assets/js/bootstrap.bundle.js"></script>
+    <script src="../assets/js/bootstrap.bundle.js"></script>
     
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

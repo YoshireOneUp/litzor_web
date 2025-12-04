@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['correo_cl'], $_POST['contrasena_cl'])) {
         
         session_start();
-        require_once './config/conexion_db.php';
+        require_once __DIR__ . '../../../config/conexion_db.php';
 
         $correo = trim($_POST['correo_cl']);
         $contrasena = trim($_POST['contrasena_cl']);
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } 
                 elseif ($usuario['tipo_usuario'] == 2) {
                     // Administrador → panel_admin.php
-                    header('Location: panel_admin.php');
+                    header('Location: ../public/admin/panel_admin.php');
                     exit;
                 } 
                 else {

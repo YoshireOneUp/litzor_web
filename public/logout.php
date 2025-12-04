@@ -16,6 +16,6 @@ if (isset($_COOKIE[session_name()])) {
 session_destroy();
 
 // Redirigir al login con mensaje
-header("Location: ../public/login.php?mensaje=Sesión cerrada correctamente");
+header("Location: ../login.php?mensaje=Sesión cerrada correctamente");
 exit();
 ?>
