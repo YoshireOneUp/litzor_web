@@ -1,10 +1,10 @@
 <?php
-require_once 'verificar_sesion.php';
+require_once './lib/verificar_sesion.php';
 verificar_organizador();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    require_once 'conexion_db.php';
+    require_once './config/conexion_db.php';
     
     $id_organizador = $_SESSION['id_cl'];
     $id_evento = intval($_POST['id_evento']);
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (mysqli_num_rows($resultado_ver) === 0) {
         mysqli_close($conexion);
-        header('Location: home.php?error=Evento no encontrado');
+        header('Location: ./public/organizador/home.php?error=Evento no encontrado');
         exit;
     }
     
@@ -75,19 +75,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_close($stmt);
         mysqli_close($conexion);
         
-        header('Location: ver_evento.php?id=' . $id_evento . '&mensaje=Evento actualizado exitosamente');
+        header('Location: ./public/organizador/ver_evento.php?id=' . $id_evento . '&mensaje=Evento actualizado exitosamente');
         exit;
         
     } else {
         mysqli_stmt_close($stmt);
         mysqli_close($conexion);
         
-        header('Location: editar_evento.php?id=' . $id_evento . '&error=Error al actualizar el evento');
+        header('Location: ./public/organizador/editar_evento.php?id=' . $id_evento . '&error=Error al actualizar el evento');
         exit;
     }
     
 } else {
-    header('Location: home.php');
+    header('Location: ./public/organizador/home.php');
     exit;
 }
 ?>

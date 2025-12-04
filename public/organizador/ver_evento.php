@@ -1,8 +1,8 @@
 <?php
-require_once 'verificar_sesion.php';
+require_once './lib/verificar_sesion.php';
 verificar_organizador();
 
-require_once 'conexion_db.php';
+require_once './config/conexion_db.php';
 
 $id_evento = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $id_organizador = $_SESSION['id_cl'];
@@ -15,7 +15,7 @@ mysqli_stmt_execute($stmt);
 $resultado = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($resultado) === 0) {
-    header('Location: home.php?error=Evento no encontrado');
+    header('Location: ../public/organizador/home.php?error=Evento no encontrado');
     exit;
 }
 
@@ -34,10 +34,10 @@ $invitados = mysqli_stmt_get_result($stmt_inv);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($evento['nombre_evento']); ?> - Litzor</title>
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
+    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../public/assets/css/styles.css">
+    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -181,8 +181,8 @@ $invitados = mysqli_stmt_get_result($stmt_inv);
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="logo">
-                        <a href="../index.html" class="navbar-brand">
-                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../public/index.html" class="navbar-brand">
+                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -192,7 +192,7 @@ $invitados = mysqli_stmt_get_result($stmt_inv);
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="home.php">
+                                        <a class="nav-link" href="../public/organizador/home.php">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                     </li>
@@ -265,13 +265,13 @@ $invitados = mysqli_stmt_get_result($stmt_inv);
 
                 <?php if ($evento['estado'] === 'activo'): ?>
                 <div class="btn-acciones text-center">
-                    <a href="home.php" class="btn-custom btn-volver">
+                    <a href="../public/organizador/home.php" class="btn-custom btn-volver">
                         <i class="bi bi-arrow-left"></i> Volver
                     </a>
-                    <a href="editar_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-custom btn-editar">
+                    <a href="../public/organizador/editar_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-custom btn-editar">
                         <i class="bi bi-pencil"></i> Editar Evento
                     </a>
-                    <a href="eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
+                    <a href="../public/organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
                        class="btn-custom btn-eliminar"
                        onclick="return confirm('¿Estás seguro de eliminar este evento?')">
                         <i class="bi bi-trash"></i> Eliminar
@@ -279,7 +279,7 @@ $invitados = mysqli_stmt_get_result($stmt_inv);
                 </div>
                 <?php else: ?>
                 <div class="btn-acciones text-center">
-                    <a href="home.php" class="btn-custom btn-volver">
+                    <a href="../public/organizador/home.php" class="btn-custom btn-volver">
                         <i class="bi bi-arrow-left"></i> Volver
                     </a>
                     <span class="badge bg-secondary p-3" style="font-size: 1.1rem;">
@@ -293,7 +293,7 @@ $invitados = mysqli_stmt_get_result($stmt_inv);
         </div>
     </section>
 
-    <script src="../assets/js/bootstrap.bundle.js"></script>
+    <script src="../public/assets/js/bootstrap.bundle.js"></script>
     
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

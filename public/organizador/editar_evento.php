@@ -1,49 +1,53 @@
 <?php
-require_once 'verificar_sesion.php';
+require_once './lib/verificar_sesion.php';
 verificar_organizador();
 
-// Generar código alfanumérico único
-function generarCodigoEvento($conexion) {
-    do {
-        $codigo = '';
-        $caracteres = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for ($i = 0; $i < 8; $i++) {
-            $codigo .= $caracteres[rand(0, strlen($caracteres) - 1)];
-        }
-        
-        // Verificar que sea único
-        $stmt = mysqli_prepare($conexion, "SELECT id_evento FROM eventos WHERE codigo_evento = ?");
-        mysqli_stmt_bind_param($stmt, "s", $codigo);
-        mysqli_stmt_execute($stmt);
-        $resultado = mysqli_stmt_get_result($stmt);
-        $existe = mysqli_num_rows($resultado) > 0;
-        mysqli_stmt_close($stmt);
-        
-    } while ($existe);
-    
-    return $codigo;
+require_once './config/conexion_db.php';
+
+$id_evento = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$id_organizador = $_SESSION['id_cl'];
+
+// Obtener datos del evento
+$sql = "SELECT * FROM eventos WHERE id_evento = ? AND id_organizador = ?";
+$stmt = mysqli_prepare($conexion, $sql);
+mysqli_stmt_bind_param($stmt, "ii", $id_evento, $id_organizador);
+mysqli_stmt_execute($stmt);
+$resultado = mysqli_stmt_get_result($stmt);
+
+if (mysqli_num_rows($resultado) === 0) {
+    header('Location: ../public/organizador/home.php?error=Evento no encontrado');
+    exit;
 }
 
-require_once 'conexion_db.php';
-$codigo_generado = generarCodigoEvento($conexion);
-$nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
+$evento = mysqli_fetch_assoc($resultado);
+
+// Obtener invitados
+$sql_invitados = "SELECT correo_invitado FROM invitados WHERE id_evento = ?";
+$stmt_inv = mysqli_prepare($conexion, $sql_invitados);
+mysqli_stmt_bind_param($stmt_inv, "i", $id_evento);
+mysqli_stmt_execute($stmt_inv);
+$resultado_inv = mysqli_stmt_get_result($stmt_inv);
+
+$invitados_array = [];
+while ($inv = mysqli_fetch_assoc($resultado_inv)) {
+    $invitados_array[] = $inv['correo_invitado'];
+}
+
+$invitados_json = json_encode($invitados_array);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Evento - Litzor</title>
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
+    <title>Editar Evento - Litzor</title>
+    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../public/assets/css/styles.css">
+    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <!-- Leaflet Control Geocoder CSS (para búsqueda de direcciones) -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder@2.4.0/dist/Control.Geocoder.css" />
     
     <style>
         body {
@@ -140,7 +144,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
         }
 
         .btn-submit {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
             padding: 1rem 2rem;
             border-radius: 10px;
@@ -180,7 +184,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                 <div class="col-6">
                     <div class="logo">
                         <a href="../index.html" class="navbar-brand">
-                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -190,7 +194,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="home.php">
+                                        <a class="nav-link" href="../public/organnizadorhome.php">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                     </li>
@@ -206,7 +210,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
     <!-- Badge con código del evento -->
     <div class="codigo-badge">
         <div class="codigo-label">Código del Evento:</div>
-        <div class="codigo-valor"><?php echo $codigo_generado; ?></div>
+        <div class="codigo-valor"><?php echo htmlspecialchars($evento['codigo_evento']); ?></div>
     </div>
 
     <section class="py-5">
@@ -214,25 +218,27 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
             
             <div class="form-container">
                 <h2 class="form-title">
-                    <i class="bi bi-plus-circle text-success"></i>
-                    Crear Nuevo Evento
+                    <i class="bi bi-pencil text-primary"></i>
+                    Editar Evento
                 </h2>
 
-                <form action="procesar_crear_evento.php" method="POST" id="formEvento">
+                <form action="../public/organizador/procesar_editar_evento.php" method="POST" id="formEvento">
                     
-                    <input type="hidden" name="codigo_evento" value="<?php echo $codigo_generado; ?>">
+                    <input type="hidden" name="id_evento" value="<?php echo $evento['id_evento']; ?>">
+                    <input type="hidden" name="codigo_evento" value="<?php echo $evento['codigo_evento']; ?>">
                     
                     <!-- Nombre del Evento -->
                     <div class="mb-4">
                         <label class="form-label fw-bold">Nombre del Evento *</label>
                         <input type="text" class="form-control form-control-lg" name="nombre_evento" required 
-                               placeholder="Ej: Conferencia Anual 2025">
+                               value="<?php echo htmlspecialchars($evento['nombre_evento']); ?>">
                     </div>
 
                     <!-- Fecha -->
                     <div class="mb-4">
                         <label class="form-label fw-bold">Fecha del Evento *</label>
                         <input type="date" class="form-control form-control-lg" name="fecha_evento" required
+                               value="<?php echo $evento['fecha_evento']; ?>"
                                min="<?php echo date('Y-m-d'); ?>">
                     </div>
 
@@ -240,11 +246,13 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Hora de Inicio *</label>
-                            <input type="time" class="form-control form-control-lg" name="hora_inicio" required>
+                            <input type="time" class="form-control form-control-lg" name="hora_inicio" required
+                                   value="<?php echo $evento['hora_inicio']; ?>">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-bold">Hora de Fin *</label>
-                            <input type="time" class="form-control form-control-lg" name="hora_fin" required>
+                            <input type="time" class="form-control form-control-lg" name="hora_fin" required
+                                   value="<?php echo $evento['hora_fin']; ?>">
                         </div>
                     </div>
 
@@ -252,12 +260,13 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                     <div class="mb-4">
                         <label class="form-label fw-bold">Ubicación *</label>
                         <input type="text" class="form-control form-control-lg" id="ubicacion" name="ubicacion" 
+                               value="<?php echo htmlspecialchars($evento['ubicacion']); ?>"
                                placeholder="Escribe la dirección y presiona Enter para buscar" required>
                         <div class="search-info">
                             <i class="bi bi-info-circle"></i> Escribe una dirección y presiona Enter, o haz clic directamente en el mapa
                         </div>
-                        <input type="hidden" id="latitud" name="latitud">
-                        <input type="hidden" id="longitud" name="longitud">
+                        <input type="hidden" id="latitud" name="latitud" value="<?php echo $evento['latitud']; ?>">
+                        <input type="hidden" id="longitud" name="longitud" value="<?php echo $evento['longitud']; ?>">
                         <div id="map"></div>
                     </div>
 
@@ -272,19 +281,19 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                             </button>
                         </div>
                         <div id="lista_invitados"></div>
-                        <input type="hidden" name="invitados" id="invitados_json" value="[]">
+                        <input type="hidden" name="invitados" id="invitados_json" value="<?php echo htmlspecialchars($invitados_json); ?>">
                     </div>
 
                     <!-- Botones -->
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="home.php" class="btn-cancelar w-100">
+                            <a href="../public/organizador/ver_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-cancelar w-100">
                                 <i class="bi bi-x-circle"></i> Cancelar
                             </a>
                         </div>
                         <div class="col-md-6">
                             <button type="submit" class="btn-submit">
-                                <i class="bi bi-check-circle"></i> Crear Evento
+                                <i class="bi bi-check-circle"></i> Guardar Cambios
                             </button>
                         </div>
                     </div>
@@ -295,7 +304,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
         </div>
     </section>
 
-    <script src="../assets/js/bootstrap.bundle.js"></script>
+    <script src="../public/assets/js/bootstrap.bundle.js"></script>
     
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -303,18 +312,20 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
     <script>
         let map;
         let marker;
-        let invitados = [];
+        let invitados = <?php echo $invitados_json; ?>;
 
         // Inicializar Leaflet Map
         function initMap() {
             try {
-                // Ubicación inicial (Querétaro, México)
-                const ubicacionInicial = [20.5888, -100.3899];
+                // Usar las coordenadas del evento o ubicación por defecto
+                const lat = <?php echo $evento['latitud'] ?? 20.5888; ?>;
+                const lng = <?php echo $evento['longitud'] ?? -100.3899; ?>;
+                const ubicacionInicial = [lat, lng];
                 
                 // Crear el mapa
-                map = L.map('map').setView(ubicacionInicial, 13);
+                map = L.map('map').setView(ubicacionInicial, 15);
                 
-                console.log('Mapa Leaflet inicializado correctamente');
+                console.log('Mapa Leaflet inicializado correctamente con coordenadas:', ubicacionInicial);
             
             // Agregar capa de OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -345,10 +356,6 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                 
                 obtenerDireccion(e.latlng.lat, e.latlng.lng);
             });
-            
-            // Inicializar valores
-            document.getElementById('latitud').value = ubicacionInicial[0];
-            document.getElementById('longitud').value = ubicacionInicial[1];
             
             } catch (error) {
                 console.error('Error al inicializar el mapa:', error);
@@ -468,8 +475,11 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
             }
         });
 
-        // Inicializar mapa cuando cargue la página
-        window.addEventListener('load', initMap);
+        // Inicializar mapa y cargar invitados existentes
+        window.addEventListener('load', function() {
+            initMap();
+            actualizarListaInvitados();
+        });
     </script>
 
 </body>

@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['correo_cl'], $_POST['contrasena_cl'])) {
         
         session_start();
-        require_once 'conexion_db.php';
+        require_once './config/conexion_db.php';
 
         $correo = trim($_POST['correo_cl']);
         $contrasena = trim($_POST['contrasena_cl']);
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Redirección según tipo de usuario
                 if ($usuario['tipo_usuario'] == 1) {
                     // Organizador → home.php
-                    header('Location: home.php');
+                    header('Location: ../public/organizador/home.php');
                     exit;
                 } 
                 elseif ($usuario['tipo_usuario'] == 2) {
@@ -48,29 +48,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } 
                 else {
                     // Usuario no reconocido
-                    header('Location: login.php?error=' . urlencode('Usuario no reconocido'));
+                    header('Location: ../public/login.php?error=' . urlencode('Usuario no reconocido'));
                     exit;
                 }
                 
             } else {
-                header('Location: login.php?error=' . urlencode('Credenciales incorrectas'));
+                header('Location: ../public/login.php?error=' . urlencode('Credenciales incorrectas'));
                 exit;
             }
             
         } else {
-            header('Location: login.php?error=' . urlencode('Correo no registrado'));
+            header('Location: ../public/login.php?error=' . urlencode('Correo no registrado'));
             exit;
         }
 
         mysqli_close($conexion);
         
     } else {
-        header('Location: login.php?error=' . urlencode('Completa el formulario'));
+        header('Location: ../public/login.php?error=' . urlencode('Completa el formulario'));
         exit;
     }
     
 } else {
-    header('Location: login.php?error=' . urlencode('Acceso no permitido'));
+    header('Location: ../public/login.php?error=' . urlencode('Acceso no permitido'));
     exit;
 }
 ?>

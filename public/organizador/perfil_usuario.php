@@ -1,35 +1,36 @@
 <?php
-require_once 'verificar_sesion.php';
-verificar_administrador();
+require_once './lib/verificar_sesion.php';
+verificar_organizador();
 
-require_once 'conexion_db.php';
+require_once './config/conexion_db.php';
 
-// Obtener datos del administrador actual
-$id_admin = $_SESSION['id_cl'];
+// Obtener datos del usuario actual
+$id_usuario = $_SESSION['id_cl'];
 $consulta = "SELECT * FROM clientes WHERE id_cl = ?";
 $stmt = mysqli_prepare($conexion, $consulta);
-mysqli_stmt_bind_param($stmt, "i", $id_admin);
+mysqli_stmt_bind_param($stmt, "i", $id_usuario);
 mysqli_stmt_execute($stmt);
 $resultado = mysqli_stmt_get_result($stmt);
-$admin = mysqli_fetch_assoc($resultado);
+$usuario = mysqli_fetch_assoc($resultado);
 
-// Estadísticas generales
-$result_usuarios = mysqli_query($conexion, "SELECT COUNT(*) as total FROM clientes WHERE tipo_usuario = 1");
-$total_usuarios = mysqli_fetch_assoc($result_usuarios)['total'];
-
-$result_eventos = mysqli_query($conexion, "SELECT COUNT(*) as total FROM eventos");
-$total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
+// Contar eventos del usuario
+$sql_eventos = "SELECT COUNT(*) as total FROM eventos WHERE id_organizador = ? AND estado = 'activo'";
+$stmt_ev = mysqli_prepare($conexion, $sql_eventos);
+mysqli_stmt_bind_param($stmt_ev, "i", $id_usuario);
+mysqli_stmt_execute($stmt_ev);
+$result_ev = mysqli_stmt_get_result($stmt_ev);
+$eventos_count = mysqli_fetch_assoc($result_ev)['total'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil Administrador - Litzor</title>
-    <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
+    <title>Mi Perfil - Litzor</title>
+    <link rel="stylesheet" href="../public/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../public/assets/css/styles.css">
+    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -81,7 +82,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
 
         .profile-icon {
             font-size: 6rem;
-            color: #ef4444;
+            color: #746de3ff;
             margin-bottom: 1rem;
         }
 
@@ -93,9 +94,8 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
         }
 
         .profile-subtitle {
-            color: #ef4444;
+            color: #6b7280;
             font-size: 1.1rem;
-            font-weight: 600;
         }
 
         .info-row {
@@ -111,7 +111,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
 
         .info-icon {
             font-size: 1.5rem;
-            color: #ef4444;
+            color: #746de3ff;
             margin-right: 1rem;
             min-width: 40px;
             text-align: center;
@@ -134,27 +134,11 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
             font-size: 1.1rem;
         }
 
-        .admin-badge {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 1rem;
-            font-weight: 600;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .stat-box {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        .stats-container {
+            background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
             border-radius: 15px;
             padding: 1.5rem;
+            margin-top: 2rem;
             text-align: center;
         }
 
@@ -166,8 +150,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
 
         .stat-label {
             color: #374151;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
+            font-size: 1rem;
         }
 
         .btn-back {
@@ -195,8 +178,8 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
             <div class="row align-items-center">
                 <div class="col-6">
                     <div class="logo">
-                        <a href="../index.html" class="navbar-brand">
-                            <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                        <a href="../public/index.html" class="navbar-brand">
+                            <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
                         </a>
                     </div>
                 </div>
@@ -206,17 +189,17 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="panel_admin.php">
-                                            <i class="bi bi-speedometer2"></i>
+                                        <a class="nav-link" href="../public/organizador/home.php">
+                                            <i class="bi bi-house"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="perfil_admin.php">
+                                        <a class="nav-link active" href="../public/organizador/perfil_usuario.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="logout.php">
+                                        <a class="nav-link" href="../public/logout.php">
                                             <i class="bi bi-box-arrow-right"></i>
                                         </a>
                                     </li>
@@ -236,26 +219,23 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                 
                 <div class="profile-header">
                     <div class="profile-icon">
-                        <i class="bi bi-shield-fill-check"></i>
+                        <i class="bi bi-person-circle"></i>
                     </div>
-                    <h1 class="profile-title"><?php echo htmlspecialchars($admin['nombre_cl']); ?></h1>
+                    <h1 class="profile-title"><?php echo htmlspecialchars($usuario['nombre_cl']); ?></h1>
                     <p class="profile-subtitle">
-                        <i class="bi bi-star-fill"></i> ADMINISTRADOR
+                        <i class="bi bi-award"></i> Organizador de Eventos
                     </p>
-                    <div class="admin-badge">
-                        <i class="bi bi-shield-lock-fill"></i> Acceso Total al Sistema
-                    </div>
                 </div>
 
-                <?php if ($admin): ?>
+                <?php if ($usuario): ?>
                     
                     <div class="info-row">
                         <div class="info-icon">
                             <i class="bi bi-hash"></i>
                         </div>
                         <div class="info-content">
-                            <div class="info-label">ID de Administrador</div>
-                            <div class="info-value">#<?php echo htmlspecialchars($admin['id_cl']); ?></div>
+                            <div class="info-label">ID de Usuario</div>
+                            <div class="info-value">#<?php echo htmlspecialchars($usuario['id_cl']); ?></div>
                         </div>
                     </div>
                     
@@ -265,7 +245,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                         </div>
                         <div class="info-content">
                             <div class="info-label">Nombre Completo</div>
-                            <div class="info-value"><?php echo htmlspecialchars($admin['nombre_cl']); ?></div>
+                            <div class="info-value"><?php echo htmlspecialchars($usuario['nombre_cl']); ?></div>
                         </div>
                     </div>
                     
@@ -275,7 +255,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                         </div>
                         <div class="info-content">
                             <div class="info-label">Correo Electrónico</div>
-                            <div class="info-value"><?php echo htmlspecialchars($admin['correo_cl']); ?></div>
+                            <div class="info-value"><?php echo htmlspecialchars($usuario['correo_cl']); ?></div>
                         </div>
                     </div>
                     
@@ -284,27 +264,19 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                             <i class="bi bi-calendar-plus"></i>
                         </div>
                         <div class="info-content">
-                            <div class="info-label">Administrador Desde</div>
+                            <div class="info-label">Miembro Desde</div>
                             <div class="info-value">
-                                <?php echo date('d/m/Y', strtotime($admin['fecha_registro'])); ?>
+                                <?php echo date('d/m/Y', strtotime($usuario['fecha_registro'])); ?>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Estadísticas del sistema -->
-                    <div class="stats-row">
-                        <div class="stat-box">
-                            <div class="stat-number">
-                                <i class="bi bi-people"></i> <?php echo $total_usuarios; ?>
-                            </div>
-                            <div class="stat-label">Usuarios Activos</div>
+                    <!-- Estadísticas -->
+                    <div class="stats-container">
+                        <div class="stat-number">
+                            <i class="bi bi-calendar-event"></i> <?php echo $eventos_count; ?>
                         </div>
-                        <div class="stat-box">
-                            <div class="stat-number">
-                                <i class="bi bi-calendar-event"></i> <?php echo $total_eventos; ?>
-                            </div>
-                            <div class="stat-label">Eventos Totales</div>
-                        </div>
+                        <div class="stat-label">Eventos Activos</div>
                     </div>
 
                 <?php else: ?>
@@ -315,8 +287,8 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                 <?php endif; ?>
 
                 <div class="text-center">
-                    <a href="panel_admin.php" class="btn-back">
-                        <i class="bi bi-arrow-left"></i> Volver al Panel
+                    <a href="../public/organizador/home.php" class="btn-back">
+                        <i class="bi bi-arrow-left"></i> Volver al Inicio
                     </a>
                 </div>
             </div>
@@ -324,7 +296,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
         </div>
     </section>
 
-    <script src="../assets/js/bootstrap.bundle.js"></script>
+    <script src="../public/assets/js/bootstrap.bundle.js"></script>
 
 </body>
 </html>

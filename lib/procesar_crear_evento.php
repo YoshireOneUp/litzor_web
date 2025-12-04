@@ -1,10 +1,10 @@
 <?php
-require_once 'verificar_sesion.php';
+require_once './lib/verificar_sesion.php';
 verificar_organizador();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    require_once 'conexion_db.php';
+    require_once './config/conexion_db.php';
     
     $id_organizador = $_SESSION['id_cl'];
     $codigo_evento = trim($_POST['codigo_evento']);
@@ -61,19 +61,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_close($conexion);
         
         // Redirigir a home con mensaje de éxito
-        header('Location: home.php?mensaje=Evento creado exitosamente');
+        header('Location: ../public/organizador/home.php?mensaje=Evento creado exitosamente');
         exit;
         
     } else {
         mysqli_stmt_close($stmt);
         mysqli_close($conexion);
         
-        header('Location: crear_evento.php?error=Error al crear el evento');
+        header('Location: ../public/organizador/crear_evento.php?error=Error al crear el evento');
         exit;
     }
     
 } else {
-    header('Location: home.php');
+    header('Location: ../public/organizador/home.php');
     exit;
 }
 ?>

@@ -1,29 +1,30 @@
 <?php
 session_start();
 
-// Si ya tiene sesión activa, redirigir
+// Si ya tiene sesión activa, redirigir según tipo de usuario
 if (isset($_SESSION['id_cl']) && isset($_SESSION['tipo_usuario'])) {
     if ($_SESSION['tipo_usuario'] == 1) {
-        header('Location: home.php');
+        header('Location: ../public/organizador/home.php');
         exit;
     } elseif ($_SESSION['tipo_usuario'] == 2) {
-        header('Location: panel_admin.php');
+        header('Location: ../public/admin/panel_admin.php');
         exit;
     }
 }
 
-$mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
+$mensaje = isset($_GET['error']) ? $_GET['error'] : '';
+$mensaje_exito = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - Litzor</title>
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
+    <title>Inicio de Sesión - Litzor</title>
+    <link href="../public/assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="../public/assets/css/styles.css">
+    <link rel="shortcut icon" href="../public/assets/img/logo-wout-bg.png">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -34,28 +35,28 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
             padding: 2rem;
         }
 
-        .register-container {
+        .login-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
         }
 
-        .register-card {
+        .login-card {
             background: white;
             border-radius: 25px;
             padding: 3rem;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .logo-register {
+        .logo-login {
             text-align: center;
             margin-bottom: 2rem;
         }
 
-        .logo-register img {
+        .logo-login img {
             height: 80px;
         }
 
-        .register-title {
+        .login-title {
             font-size: 2rem;
             font-weight: bold;
             color: #1f2937;
@@ -63,7 +64,7 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
             margin-bottom: 0.5rem;
         }
 
-        .register-subtitle {
+        .login-subtitle {
             text-align: center;
             color: #6b7280;
             margin-bottom: 2rem;
@@ -87,8 +88,8 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
             box-shadow: 0 0 0 3px rgba(116, 109, 227, 0.1);
         }
 
-        .btn-register {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        .btn-login {
+            background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
             color: white;
             padding: 0.75rem;
             border-radius: 10px;
@@ -100,23 +101,23 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
             margin-top: 1rem;
         }
 
-        .btn-register:hover {
+        .btn-login:hover {
             transform: translateY(-2px);
         }
 
-        .login-link {
+        .register-link {
             text-align: center;
             margin-top: 1.5rem;
             color: #6b7280;
         }
 
-        .login-link a {
+        .register-link a {
             color: #746de3ff;
             font-weight: 600;
             text-decoration: none;
         }
 
-        .login-link a:hover {
+        .register-link a:hover {
             text-decoration: underline;
         }
 
@@ -134,58 +135,36 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
         .back-link a:hover {
             color: #374151;
         }
-
-        .password-requirements {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-top: 0.5rem;
-        }
     </style>
 </head>
 <body>
-    <div class="register-container">
-        <div class="register-card">
+    <div class="login-container">
+        <div class="login-card">
             
-            <div class="logo-register">
-                <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
+            <div class="logo-login">
+                <img src="../public/assets/img/logo-wout-bg.png" alt="Litzor Logo">
             </div>
 
-            <h1 class="register-title">Crear Cuenta</h1>
-            <p class="register-subtitle">Regístrate como organizador</p>
+            <h1 class="login-title">¡Bienvenido!</h1>
+            <p class="login-subtitle">Inicia sesión en tu cuenta</p>
 
-            <?php if ($mensaje_error): ?>
+            <?php if ($mensaje): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="bi bi-exclamation-triangle-fill"></i>
-                    <?php 
-                        if ($mensaje_error == '1') {
-                            echo 'El correo ya está registrado';
-                        } elseif ($mensaje_error == '2') {
-                            echo 'Error al crear la cuenta. Intenta nuevamente';
-                        } else {
-                            echo htmlspecialchars($mensaje_error);
-                        }
-                    ?>
+                    <?php echo htmlspecialchars($mensaje); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($mensaje_exito): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <?php echo htmlspecialchars($mensaje_exito); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
             
-            <form action="guardar_registro.php" method="post" id="formRegistro">
-                
-                <div class="mb-3">
-                    <label for="nombre_cl" class="form-label">
-                        <i class="bi bi-person"></i> Nombre completo
-                    </label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="nombre_cl"
-                        name="nombre_cl" 
-                        placeholder="Juan Pérez García"
-                        required
-                        minlength="3"
-                        autocomplete="name"
-                    >
-                </div>
+            <form action="../lib/validar.php" method="post">
                 
                 <div class="mb-3">
                     <label for="correo_cl" class="form-label">
@@ -213,40 +192,20 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
                         name="contrasena_cl" 
                         placeholder="••••••••"
                         required
-                        minlength="6"
-                        autocomplete="new-password"
-                    >
-                    <div class="password-requirements">
-                        <i class="bi bi-info-circle"></i> Mínimo 6 caracteres
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="contrasena_confirm" class="form-label">
-                        <i class="bi bi-lock-fill"></i> Confirmar contraseña
-                    </label>
-                    <input 
-                        type="password" 
-                        class="form-control" 
-                        id="contrasena_confirm"
-                        name="contrasena_confirm" 
-                        placeholder="••••••••"
-                        required
-                        minlength="6"
-                        autocomplete="new-password"
+                        autocomplete="current-password"
                     >
                 </div>
                 
-                <button type="submit" class="btn-register">
-                    <i class="bi bi-person-plus"></i> Registrarse
+                <button type="submit" class="btn-login">
+                    <i class="bi bi-box-arrow-in-right"></i> Ingresar
                 </button>
                 
-                <div class="login-link">
-                    ¿Ya tienes cuenta? <a href="login.php">Inicia sesión aquí</a>
+                <div class="register-link">
+                    ¿No tienes cuenta? <a href="register.php">Créala aquí</a>
                 </div>
 
                 <div class="back-link">
-                    <a href="../index.html">
+                    <a href="../public/index.html">
                         <i class="bi bi-arrow-left"></i> Volver al inicio
                     </a>
                 </div>
@@ -254,19 +213,6 @@ $mensaje_error = isset($_GET['error']) ? $_GET['error'] : '';
         </div>
     </div>
 
-    <script src="../assets/js/bootstrap.bundle.js"></script>
-    <script>
-        // Validar que las contraseñas coincidan
-        document.getElementById('formRegistro').addEventListener('submit', function(e) {
-            const password = document.getElementById('contrasena_cl').value;
-            const confirmPassword = document.getElementById('contrasena_confirm').value;
-            
-            if (password !== confirmPassword) {
-                e.preventDefault();
-                alert('Las contraseñas no coinciden');
-                return false;
-            }
-        });
-    </script>
+    <script src="../public/assets/js/bootstrap.bundle.js"></script>
 </body>
 </html>

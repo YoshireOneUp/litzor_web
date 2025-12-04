@@ -1,8 +1,8 @@
 <?php
-require_once 'verificar_sesion.php';
+require_once './lib/verificar_sesion.php';
 verificar_organizador();
 
-require_once 'conexion_db.php';
+require_once './config/conexion_db.php';
 
 $id_evento = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $id_organizador = $_SESSION['id_cl'];
@@ -16,7 +16,7 @@ $resultado = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($resultado) === 0) {
     mysqli_close($conexion);
-    header('Location: home.php?error=Evento no encontrado');
+    header('Location: ../public/organizador/home.php?error=Evento no encontrado');
     exit;
 }
 
@@ -27,11 +27,11 @@ mysqli_stmt_bind_param($stmt_del, "ii", $id_evento, $id_organizador);
 
 if (mysqli_stmt_execute($stmt_del)) {
     mysqli_close($conexion);
-    header('Location: home.php?mensaje=Evento eliminado exitosamente');
+    header('Location: ../public/organizador/home.php?mensaje=Evento eliminado exitosamente');
     exit;
 } else {
     mysqli_close($conexion);
-    header('Location: home.php?error=Error al eliminar el evento');
+    header('Location: ../public/organizador/home.php?error=Error al eliminar el evento');
     exit;
 }
 ?>
