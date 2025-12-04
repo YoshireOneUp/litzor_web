@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '../../../lib/verificar_sesion.php';
-verificar_administrador(); 
+verificar_organizador(); 
 
 // Generar código alfanumérico único
 function generarCodigoEvento($conexion) {
@@ -190,7 +190,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../organizador/home.php">
+                                        <a class="nav-link" href="./home.php">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                     </li>
@@ -218,7 +218,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                     Crear Nuevo Evento
                 </h2>
 
-                <form action="../organizador/procesar_crear_evento.php" method="POST" id="formEvento">
+                <form action="./procesar_crear_evento.php" method="POST" id="formEvento">
                     
                     <input type="hidden" name="codigo_evento" value="<?php echo $codigo_generado; ?>">
                     

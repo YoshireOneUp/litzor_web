@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '../../../lib/verificar_sesion.php';
-verificar_administrador(); 
+verificar_organizador(); 
 
 require_once __DIR__ . '../../../config/conexion_db.php';
 
@@ -253,7 +253,7 @@ mysqli_query($conexion, $sql_update);
                             <div class="navbar-collapse justify-content-end collapse" id="movileNav">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../organizador/perfil_usuario.php">
+                                        <a class="nav-link" href="./perfil_usuario.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
@@ -276,7 +276,7 @@ mysqli_query($conexion, $sql_update);
             
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="section-title mb-0">¡Bienvenido, <?php echo htmlspecialchars($nombre_usuario); ?>!</h1>
-                <a href="../organizador/crear_evento.php" class="btn-crear-evento">
+                <a href="./crear_evento.php" class="btn-crear-evento">
                     <i class="bi bi-plus-circle"></i>
                     Crear Evento
                 </a>
@@ -303,10 +303,10 @@ mysqli_query($conexion, $sql_update);
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </button>
                                 <div id="dropdown-<?php echo $evento['id_evento']; ?>" class="dropdown-menu-custom">
-                                    <a href="../organizador/editar_evento.php?id=<?php echo $evento['id_evento']; ?>" class="dropdown-item-custom">
+                                    <a href="./editar_evento.php?id=<?php echo $evento['id_evento']; ?>" class="dropdown-item-custom">
                                         <i class="bi bi-pencil"></i> Editar
                                     </a>
-                                    <a href="../organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
+                                    <a href="./eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
                                        class="dropdown-item-custom danger"
                                        onclick="return confirm('¿Estás seguro de eliminar este evento?')">
                                         <i class="bi bi-trash"></i> Eliminar
@@ -352,7 +352,7 @@ mysqli_query($conexion, $sql_update);
                                     <i class="bi bi-three-dots-vertical"></i>
                                 </button>
                                 <div id="dropdown-<?php echo $evento['id_evento']; ?>" class="dropdown-menu-custom">
-                                    <a href="../organizador/eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
+                                    <a href="./eliminar_evento.php?id=<?php echo $evento['id_evento']; ?>" 
                                        class="dropdown-item-custom danger"
                                        onclick="return confirm('¿Estás seguro de eliminar este evento del historial?')">
                                         <i class="bi bi-trash"></i> Eliminar
@@ -412,7 +412,7 @@ mysqli_query($conexion, $sql_update);
         }
 
         function verEvento(id) {
-            window.location.href = '../organizador/ver_evento.php?id=' + id;
+            window.location.href = './ver_evento.php?id=' + id;
         }
 
         // Cerrar dropdowns al hacer clic fuera

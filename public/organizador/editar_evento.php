@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '../../../lib/verificar_sesion.php';
-verificar_administrador(); 
+verificar_organizador(); 
 
 require_once __DIR__ . '../../../config/conexion_db.php';
 
@@ -15,7 +15,7 @@ mysqli_stmt_execute($stmt);
 $resultado = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($resultado) === 0) {
-    header('Location: ../organizador/home.php?error=Evento no encontrado');
+    header('Location: ./home.php?error=Evento no encontrado');
     exit;
 }
 
@@ -194,7 +194,7 @@ $invitados_json = json_encode($invitados_array);
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../organnizadorhome.php">
+                                        <a class="nav-link" href="./home.php">
                                             <i class="bi bi-arrow-left"></i>
                                         </a>
                                     </li>
@@ -222,7 +222,7 @@ $invitados_json = json_encode($invitados_array);
                     Editar Evento
                 </h2>
 
-                <form action="../organizador/procesar_editar_evento.php" method="POST" id="formEvento">
+                <form action="./procesar_editar_evento.php" method="POST" id="formEvento">
                     
                     <input type="hidden" name="id_evento" value="<?php echo $evento['id_evento']; ?>">
                     <input type="hidden" name="codigo_evento" value="<?php echo $evento['codigo_evento']; ?>">
@@ -287,7 +287,7 @@ $invitados_json = json_encode($invitados_array);
                     <!-- Botones -->
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="../organizador/ver_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-cancelar w-100">
+                            <a href="./ver_evento.php?id=<?php echo $evento['id_evento']; ?>" class="btn-cancelar w-100">
                                 <i class="bi bi-x-circle"></i> Cancelar
                             </a>
                         </div>

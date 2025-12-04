@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '../../../lib/verificar_sesion.php';
-verificar_administrador(); 
+verificar_organizador(); 
 
 require_once __DIR__ . '../../../config/conexion_db.php';
 
@@ -189,12 +189,12 @@ $eventos_count = mysqli_fetch_assoc($result_ev)['total'];
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../organizador/home.php">
+                                        <a class="nav-link" href="./home.php">
                                             <i class="bi bi-house"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="../organizador/perfil_usuario.php">
+                                        <a class="nav-link active" href="./perfil_usuario.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
@@ -287,7 +287,7 @@ $eventos_count = mysqli_fetch_assoc($result_ev)['total'];
                 <?php endif; ?>
 
                 <div class="text-center">
-                    <a href="..organizador/home.php" class="btn-back">
+                    <a href="./home.php" class="btn-back">
                         <i class="bi bi-arrow-left"></i> Volver al Inicio
                     </a>
                 </div>

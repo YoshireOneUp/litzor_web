@@ -1,13 +1,12 @@
 <?php
-session_start();
 
 // Si ya tiene sesión activa, redirigir según tipo de usuario
 if (isset($_SESSION['id_cl']) && isset($_SESSION['tipo_usuario'])) {
     if ($_SESSION['tipo_usuario'] == 1) {
-        header('Location: ../organizador/home.php');
+        header('Location: ./organizador/home.php');
         exit;
     } elseif ($_SESSION['tipo_usuario'] == 2) {
-        header('Location: ../admin/panel_admin.php');
+        header('Location: ./admin/panel_admin.php');
         exit;
     }
 }
@@ -21,10 +20,10 @@ $mensaje_exito = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión - Litzor</title>
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/bootstrap-icons.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="shortcut icon" href="../assets/img/logo-wout-bg.png">
+    <link href="./assets/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="shortcut icon" href="./assets/img/logo-wout-bg.png">
     <style>
         body {
             background: linear-gradient(135deg, #746de3ff 0%, #5a52d5 100%);
@@ -142,7 +141,7 @@ $mensaje_exito = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
         <div class="login-card">
             
             <div class="logo-login">
-                <img src="../assets/img/logo-wout-bg.png" alt="Litzor Logo">
+                <img src="./assets/img/logo-wout-bg.png" alt="Litzor Logo">
             </div>
 
             <h1 class="login-title">¡Bienvenido!</h1>
@@ -201,11 +200,11 @@ $mensaje_exito = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
                 </button>
                 
                 <div class="register-link">
-                    ¿No tienes cuenta? <a href="register.php">Créala aquí</a>
+                    ¿No tienes cuenta? <a href="./register.php">Créala aquí</a>
                 </div>
 
                 <div class="back-link">
-                    <a href="../public/index.html">
+                    <a href="./index.html">
                         <i class="bi bi-arrow-left"></i> Volver al inicio
                     </a>
                 </div>
@@ -213,6 +212,6 @@ $mensaje_exito = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
         </div>
     </div>
 
-    <script src="../assets/js/bootstrap.bundle.js"></script>
+    <script src="./assets/js/bootstrap.bundle.js"></script>
 </body>
 </html>

@@ -260,12 +260,12 @@ $usuarios = mysqli_query($conexion, $sql_usuarios);
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="perfil_admin.php">
+                                        <a class="nav-link" href="./perfil_admin.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="logout.php">
+                                        <a class="nav-link" href="../logout.php">
                                             <i class="bi bi-box-arrow-right"></i>
                                         </a>
                                     </li>
@@ -467,7 +467,7 @@ $usuarios = mysqli_query($conexion, $sql_usuarios);
 
         function eliminarUsuario(id, nombre) {
             if (confirm(`¿Estás seguro de eliminar al usuario "${nombre}"?\n\nEsta acción también eliminará todos sus eventos e invitados.`)) {
-                window.location.href = '../public/admin/eliminar_usuario.php?id=' + id;
+                window.location.href = './public/admin/eliminar_usuario.php?id=' + id;
             }
         }
     </script>

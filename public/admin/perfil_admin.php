@@ -206,12 +206,12 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                             <div class="navbar-collapse justify-content-end">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../admin/panel_admin.php">
+                                        <a class="nav-link" href="./panel_admin.php">
                                             <i class="bi bi-speedometer2"></i>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link active" href="../admin/perfil_admin.php">
+                                        <a class="nav-link active" href="./perfil_admin.php">
                                             <i class="bi bi-person-circle"></i>
                                         </a>
                                     </li>
@@ -315,7 +315,7 @@ $total_eventos = mysqli_fetch_assoc($result_eventos)['total'];
                 <?php endif; ?>
 
                 <div class="text-center">
-                    <a href="panel_admin.php" class="btn-back">
+                    <a href="./panel_admin.php" class="btn-back">
                         <i class="bi bi-arrow-left"></i> Volver al Panel
                     </a>
                 </div>
