@@ -222,7 +222,7 @@ $invitados_json = json_encode($invitados_array);
                     Editar Evento
                 </h2>
 
-                <form action="./procesar_editar_evento.php" method="POST" id="formEvento">
+                <form action="../../lib/procesar_editar_evento.php" method="POST" id="formEvento">
                     
                     <input type="hidden" name="id_evento" value="<?php echo $evento['id_evento']; ?>">
                     <input type="hidden" name="codigo_evento" value="<?php echo $evento['codigo_evento']; ?>">

@@ -218,7 +218,7 @@ $nombre_usuario = $_SESSION['nombre_cl'] ?? 'Usuario';
                     Crear Nuevo Evento
                 </h2>
 
-                <form action="./procesar_crear_evento.php" method="POST" id="formEvento">
+                <form action="../../lib/procesar_crear_evento.php" method="POST" id="formEvento">
                     
                     <input type="hidden" name="codigo_evento" value="<?php echo $codigo_generado; ?>">
                     

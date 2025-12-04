@@ -1,10 +1,13 @@
 <?php
-require_once __DIR__ . '../../../config/conexion_db.php';
+
+require_once __DIR__ . '/verificar_sesion.php'; 
+
+// 2. Proteger el script asegurando que sea Organizador (tipo 1)
 verificar_organizador();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    require_once './config/conexion_db.php';
+    require_once __DIR__ . '../../config/conexion_db.php';
     
     $id_organizador = $_SESSION['id_cl'];
     $codigo_evento = trim($_POST['codigo_evento']);

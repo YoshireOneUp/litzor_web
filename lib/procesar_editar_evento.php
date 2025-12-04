@@ -1,10 +1,12 @@
 <?php
-require_once __DIR__ . '../../../config/conexion_db.php';
+require_once __DIR__ . '/verificar_sesion.php'; 
+
+// 2. Proteger el script asegurando que sea Organizador (tipo 1)
 verificar_organizador();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
-    require_once './config/conexion_db.php';
+    require_once __DIR__ . '../../config/conexion_db.php';
     
     $id_organizador = $_SESSION['id_cl'];
     $id_evento = intval($_POST['id_evento']);
@@ -75,19 +77,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_close($stmt);
         mysqli_close($conexion);
         
-        header('Location: ./public/organizador/ver_evento.php?id=' . $id_evento . '&mensaje=Evento actualizado exitosamente');
+        header('Location: ../public/organizador/ver_evento.php?id=' . $id_evento . '&mensaje=Evento actualizado exitosamente');
         exit;
         
     } else {
         mysqli_stmt_close($stmt);
         mysqli_close($conexion);
         
-        header('Location: ./public/organizador/editar_evento.php?id=' . $id_evento . '&error=Error al actualizar el evento');
+        header('Location: ../public/organizador/editar_evento.php?id=' . $id_evento . '&error=Error al actualizar el evento');
         exit;
     }
     
 } else {
-    header('Location: ./public/organizador/home.php');
+    header('Location: ../public/organizador/home.php');
     exit;
 }
 ?>
